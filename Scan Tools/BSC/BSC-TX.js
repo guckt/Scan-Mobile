@@ -63,6 +63,7 @@ var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
     let filteredAddresses = removeDuplicates.filter(function (item) {
         return item.indexOf("s") !== 0;
     });
+            
     Chart(filteredAddresses, itemNumber);
 
     if (filteredAddresses.length > 1) {
