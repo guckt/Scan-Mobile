@@ -58,9 +58,11 @@ var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
 
     var itemNumber = 0;
 
-    const ids = addresses.map(o => o.id)
-    const filteredAddresses = addresses.filter(({id}, index) => !ids.includes(id, index + 1))
-
+    var removeUndefined = addresses.filter(item => { return item !== undefined });
+    var removeDuplicates = [...new Set(removeUndefined)]
+    let filteredAddresses = removeDuplicates.filter(function (item) {
+        return item.indexOf("s") !== 0;
+    });
     Chart(filteredAddresses, itemNumber);
 
     if (filteredAddresses.length > 1) {
