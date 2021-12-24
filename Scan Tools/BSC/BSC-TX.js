@@ -2,8 +2,8 @@
 // @name         BSC/TX
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Transaction page tools
-// @author       T
+// @description  try to take over the world!
+// @author       guckt
 // @match        https://bscscan.com/tx/*
 // @icon         https://www.google.com/s2/favicons?domain=google.com
 // @grant        none
@@ -11,19 +11,23 @@
 
 $(document).ready(function() {
 
-var addresses = [];
+    var tickers = [];
+    var tokens = [];
+    var addresses = [];
 
-var links =['https://bscscan.com/token/',
-            'https://poocoin.app/tokens/',
-            'https://pancakeswap.finance/swap?outputCurrency='];
+    /*
+    var links =['',
+                '',
+                ''];
+    */
 
-var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
-             '0xe9e7cea3dedca5984780bafc599bd69add087d56', //BUSD
-             '0x2170ed0880ac9a755fd29b2688956bd959f933f8', //B-ETH
-             '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', //B-USDC
-             '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', //B-DAI
-             '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47', //B-ADA
-             '0x55d398326f99059ff775485246999027b3197955']; //B-BUSD
+    var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
+                 '0xe9e7cea3dedca5984780bafc599bd69add087d56', //BUSD
+                 '0x2170ed0880ac9a755fd29b2688956bd959f933f8', //B-ETH
+                 '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', //B-USDC
+                 '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', //B-DAI
+                 '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47', //B-ADA
+                 '0x55d398326f99059ff775485246999027b3197955']; //B-BUSD
 
     for (let i = 1; i < 20; i++) {
         let totalSelector = document.querySelectorAll("#wrapperContent > li:nth-child("+i+") > div > a")
@@ -37,19 +41,58 @@ var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
 
                 if (ignore.indexOf(address) == -1)
                 {
-                    addresses[i] = address;
-                    $(totalSelector[k]).append('<input type="button" value="X" id="BT'+i+'" >')
+                    var ticker
+                    var token
+                    var element = totalSelector[k].outerHTML;
 
+                    //console.info("round " + i + ": " + totalSelector[k].childNodes.length);
+                    if ((totalSelector[k].childNodes.length) == 1) {
+                        token = element.substring(
+                            element.indexOf(">") + 1,
+                            element.lastIndexOf("(")
+                        );
+                        ticker = element.substring(
+                            element.indexOf("(") + 1,
+                            element.lastIndexOf(")")
+                        );
+                    }
+                    else if ((totalSelector[k].childNodes.length) == 2){
+                        token = totalSelector[k].childNodes[0].getAttribute("data-original-title");
+                        ticker = element.substring(
+                            element.indexOf("(") + 1,
+                            element.lastIndexOf(")")
+                        );
+                    }
+                    else if ((totalSelector[k].childNodes.length) == 3){
+                        token = element.substring(
+                            element.indexOf(">") + 1,
+                            element.lastIndexOf("(")
+                        );
+                        ticker = totalSelector[k].childNodes[1].getAttribute("data-original-title");
+                    }
+                    else if ((totalSelector[k].childNodes.length) == 4){
+                        token = totalSelector[k].childNodes[0].getAttribute("data-original-title");
+                        ticker = totalSelector[k].childNodes[2].getAttribute("data-original-title")
+                    }
+
+                    tickers[i] = ticker;
+                    tokens[i] = token;
+                    addresses[i] = address;
+
+                    $(totalSelector[k].parentNode).append('<input type="button" value="X" id="BT'+i+'" >')
                     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
                     $("#BT"+i).css("margin-left", "5px");
-                    $("#BT"+i).css("border-radius", "15px");
+                    $("#BT"+i).css("border-radius", "16px");
                     $("#BT"+i).css("color", "DodgerBlue");
                     $("#BT"+i).css("background", "white");
                     $("#BT"+i).css("border-color", "DodgerBlue");
                     $("#BT"+i).click(function(){
-                        for(let j=1; links.length > j; j++){
-                            window.open(links[j]+addresses[i]);
-                        }
+                        window.open('https://web.telegram.org/z/');
+                        window.open('https://twitter.com/search?q=%22' + addresses[i] + '%22&src=typed_query&f=live');
+                        window.open('https://twitter.com/search?q=%22' + tokens[i] + '%22&src=typed_query&f=live');
+                        window.open('https://twitter.com/search?q=%22' + '$' + tickers[i] + '%22&src=typed_query&f=live');
+                        //}
+                        //window.location = current;
                     });
                 }
             }
@@ -63,13 +106,13 @@ var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
     let filteredAddresses = removeDuplicates.filter(function (item) {
         return item.indexOf("s") !== 0;
     });
-            
+
     Chart(filteredAddresses, itemNumber);
 
     if (filteredAddresses.length > 1) {
         $("#ContentPlaceHolder1_maintable > div:nth-child(12) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").append('<input type="button" value="NEXT" id="NB" >')
         //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-        $("#NB").css("position", "absolute").css("bottom", 0).css("left", 10);
+        $("#NB").css("position", "absolute").css("bottom", 5).css("left", 10);
         //$("#NB").css("border-radius", "15px")
         $("#NB").css("margin", "5px");
         $("#NB").css("width", "100px");
