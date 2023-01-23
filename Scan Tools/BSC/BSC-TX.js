@@ -110,7 +110,7 @@ $(document).ready(function() {
     Chart(filteredAddresses, itemNumber);
 
     if (filteredAddresses.length > 1) {
-        $("#ContentPlaceHolder1_maintable > div:nth-child(12) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").append('<input type="button" value="NEXT" id="NB" >')
+        $("#ContentPlaceHolder1_maintable > div:nth-child(14) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").append('<input type="button" value="NEXT" id="NB" >')
         //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
         $("#NB").css("position", "absolute").css("bottom", 5).css("left", 10);
         //$("#NB").css("border-radius", "15px")
@@ -138,7 +138,7 @@ $(document).ready(function() {
                 document.querySelector("#ContentPlaceHolder1_maintable > iframe").replaceWith(chart);
             }
             else {
-                document.querySelector("#ContentPlaceHolder1_maintable > hr:nth-child(13)").before(chart);
+                document.querySelector("#ContentPlaceHolder1_maintable > hr:nth-child(15)").before(chart);
             }
         }
     }
