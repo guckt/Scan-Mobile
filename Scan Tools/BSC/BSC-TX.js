@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         BSC/TX
+// @name         MOBILE/BSC/TX
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -88,7 +88,7 @@ $(document).ready(function() {
                     $("#BT"+i).css("border-color", "DodgerBlue");
                     $("#BT"+i).click(function(){
                         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[i]);
-                        
+
                         //}
                         //window.location = current;
                     });
@@ -108,7 +108,7 @@ $(document).ready(function() {
     Chart(filteredAddresses, itemNumber);
 
     if (filteredAddresses.length > 1) {
-        $("#ContentPlaceHolder1_maintable > div:nth-child(14) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").append('<input type="button" value="NEXT" id="NB" >')
+        $("#ContentPlaceHolder1_maintable > div:nth-child(14) > div.col-md-9").append('<input type="button" value="NEXT" id="NB" >')
         //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
         $("#NB").css("position", "absolute").css("bottom", 5).css("left", 10);
         //$("#NB").css("border-radius", "15px")
@@ -141,14 +141,3 @@ $(document).ready(function() {
         }
     }
 });
-
-
-
-
-
-
-
-
-
-
-
