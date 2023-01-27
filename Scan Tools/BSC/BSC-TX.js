@@ -95,10 +95,10 @@ $(document).ready(function() {
                     $("#BT"+i).css("background", "white");
                     $("#BT"+i).css("border-color", "DodgerBlue");
                     $("#BT"+i).click(function(){
-                        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[i]);
-
-                        //}
-                        //window.location = current;
+                        window.open('https://web.telegram.org/z/');
+                        window.open('https://twitter.com/search?q=%22' + addresses[i] + '%22&src=typed_query&f=live');
+                        window.open('https://twitter.com/search?q=%22' + tokens[i] + '%22&src=typed_query&f=live');
+                        window.open('https://twitter.com/search?q=%22' + '$' + tickers[i] + '%22&src=typed_query&f=live');
                     });
                 }
             }
