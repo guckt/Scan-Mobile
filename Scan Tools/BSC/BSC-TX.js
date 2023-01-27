@@ -155,11 +155,11 @@ function Purchase(addresses, itemNumber){
 
     $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="PURCHASE" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-    $("#BB").css("position", "fixed").css("top", 1).css("right", 80);
+    $("#BB").css("position", "fixed").css("top", 1).css("right", 100);
     //$("#NB").css("border-radius", "15px")
     $("#BB").css("margin", "5px");
-    $("#BB").css("width", "120px");
-    $("#BB").css("height", "40px");
+    $("#BB").css("width", "150px");
+    $("#BB").css("height", "50px");
 
     $("#BB").css("color", "DodgerBlue");
     $("#BB").css("background", "white");
