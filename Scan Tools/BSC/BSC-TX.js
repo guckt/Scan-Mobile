@@ -155,7 +155,7 @@ function Purchase(addresses, itemNumber){
 
     $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="BUY" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-    $("#BB").css("position", "fixed").css("top", 1).css("right", 80);
+    $("#BB").css("position", "fixed").css("top", 1).css("right", 70);
     //$("#NB").css("border-radius", "15px")
     $("#BB").css("margin", "5px");
     $("#BB").css("width", "130px");
