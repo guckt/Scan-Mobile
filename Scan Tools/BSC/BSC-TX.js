@@ -153,7 +153,7 @@ function Chart(addresses, itemNumber){
 
 function Purchase(addresses, itemNumber){
 
-    $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="PURCHASE" id="BB" >')
+    $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="BUY" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
     $("#BB").css("position", "fixed").css("top", 1).css("right", 100);
     //$("#NB").css("border-radius", "15px")
