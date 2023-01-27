@@ -119,7 +119,7 @@ $(document).ready(function() {
     if (filteredAddresses.length > 1) {
         $("#ContentPlaceHolder1_maintable > div:nth-child(14) > div.col-md-9").append('<input type="button" value="NEXT" id="NB" >')
         //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-        $("#NB").css("position", "absolute").css("bottom", 5).css("left", 10);
+        $("#NB").css("position", "absolute").css("bottom", 2).css("right", 5);
         //$("#NB").css("border-radius", "15px")
         $("#NB").css("margin", "5px");
         $("#NB").css("width", "100px");
@@ -130,7 +130,7 @@ $(document).ready(function() {
             itemNumber = itemNumber + 1;
             itemNumber = itemNumber % filteredAddresses.length;
             Chart(filteredAddresses, itemNumber);
-            Purchase(filteredAddresses, itemNumber);
+            PurchaseNext(filteredAddresses, itemNumber);
         });
     }
 function Chart(addresses, itemNumber){
@@ -155,7 +155,7 @@ function Purchase(addresses, itemNumber){
 
     $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="BUY" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-    $("#BB").css("position", "fixed").css("top", 1).css("right", 70);
+    $("#BB").css("position", "fixed").css("top", 1).css("right", 60);
     //$("#NB").css("border-radius", "15px")
     $("#BB").css("margin", "5px");
     $("#BB").css("width", "130px");
@@ -169,5 +169,9 @@ function Purchase(addresses, itemNumber){
     });
 };
 
-
+function PurchaseNext(addresses, itemNumber){
+    $("#BB").click(function(){
+        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
+    });
+};
 
