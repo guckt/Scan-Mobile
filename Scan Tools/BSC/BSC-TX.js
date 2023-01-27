@@ -1,6 +1,3 @@
-// ==UserScript==
-// @name         MOBILE/BSC/TX
-// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
 // @author       guckt
@@ -29,8 +26,12 @@ $(document).ready(function() {
                  '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47', //B-ADA
                  '0x55d398326f99059ff775485246999027b3197955']; //B-BUSD
 
-    const bannerAd = document.querySelector("#content > div:nth-child(10)").remove();
-    const sponsorAd = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9").remove();
+    // FILTERING
+    const topFilter = document.querySelector("#content > div.container.py-3.mn-b3 > div").remove();
+    const bannerFilter = document.querySelector("#content > div:nth-child(10)").remove();
+    const sponsorFilter = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9").remove();
+    const commentsFilter = document.querySelector("#ContentPlaceHolder1_li_disqus").remove();
+
 
     for (let i = 1; i < 20; i++) {
         let totalSelector = document.querySelectorAll("#wrapperContent > li:nth-child("+i+") > div > a")
@@ -144,12 +145,6 @@ $(document).ready(function() {
         }
     }
 });
-
-
-
-
-
-
 
 
 
