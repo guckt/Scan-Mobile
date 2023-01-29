@@ -122,9 +122,9 @@ $(document).ready(function() {
         //$("#NB").css("border-radius", "15px")
         $("#NB").css("margin", "5px");
         $("#NB").css("width", "100px");
-        $("#NB").css("color", "DodgerBlue");
-        $("#NB").css("background", "white");
-        $("#NB").css("border-color", "DodgerBlue");
+        $("#NB").css("color", "white");
+        $("#NB").css("background", "DodgerBlue");
+        $("#NB").css("border-color", "white");
         $("#NB").click(function(){
             itemNumber = itemNumber + 1;
             itemNumber = itemNumber % filteredAddresses.length;
@@ -190,7 +190,7 @@ function Chart(addresses, itemNumber){
 
 function PrintMatches(tokenMatches,scanTotal)
     {
-      const printDiv = document.querySelector("#ContentPlaceHolder1_collapsedLink_span");
+      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
       const heading = document.createElement("h1");
       heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
       //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
@@ -219,9 +219,9 @@ function Purchase(addresses, itemNumber){
     $("#BB").css("width", "130px");
     $("#BB").css("height", "40px");
 
-    $("#BB").css("color", "DodgerBlue");
-    $("#BB").css("background", "white");
-    $("#BB").css("border-color", "DodgerBlue");
+    $("#BB").css("color", "white");
+    $("#BB").css("background", "DodgerBlue");
+    $("#BB").css("border-color", "white");
     $("#BB").click(function(){
         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
     });
@@ -232,8 +232,6 @@ function PurchaseNext(addresses, itemNumber){
         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
     });
 };
-
-
 
 
 
