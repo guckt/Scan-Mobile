@@ -19,6 +19,7 @@ $(document).ready(function() {
     var APIoffset = 1000;
     var APImax = 2000;
 
+
     var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
                  '0xe9e7cea3dedca5984780bafc599bd69add087d56', //BUSD
                  '0x2170ed0880ac9a755fd29b2688956bd959f933f8', //B-ETH
@@ -31,7 +32,7 @@ $(document).ready(function() {
     const topFilter = document.querySelector("#content > div.container.py-3.mn-b3 > div").remove();
     const bannerFilter = document.querySelector("#content > div:nth-child(10)").remove();
     const sponsorFilter = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9").remove();
-    const sponsorFilter2 = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div").remove();
+    //const sponsorFilter2 = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div").remove();
     const commentsFilter = document.querySelector("#ContentPlaceHolder1_li_disqus").remove();
 
 
@@ -93,7 +94,9 @@ $(document).ready(function() {
                     $("#BT"+i).css("background", "white");
                     $("#BT"+i).css("border-color", "DodgerBlue");
                     $("#BT"+i).click(function(){
-                        
+                        window.open('https://web.telegram.org/z/');
+                        window.open('https://twitter.com/search?q=%22' + addresses[i] + '%22&src=typed_query&f=live');
+                        window.open('https://twitter.com/search?q=%22' + tokens[i] + '%22&src=typed_query&f=live');
                         window.open('https://twitter.com/search?q=%22' + '$' + tickers[i] + '%22&src=typed_query&f=live');
                     });
                 }
@@ -119,9 +122,9 @@ $(document).ready(function() {
         //$("#NB").css("border-radius", "15px")
         $("#NB").css("margin", "5px");
         $("#NB").css("width", "100px");
-        $("#NB").css("color", "white");
-        $("#NB").css("background", "DodgerBlue");
-        $("#NB").css("border-color", "white");
+        $("#NB").css("color", "DodgerBlue");
+        $("#NB").css("background", "white");
+        $("#NB").css("border-color", "DodgerBlue");
         $("#NB").click(function(){
             itemNumber = itemNumber + 1;
             itemNumber = itemNumber % filteredAddresses.length;
@@ -145,32 +148,7 @@ function Chart(addresses, itemNumber){
             }
         }
     }
-});
 
-function Purchase(addresses, itemNumber){
-
-    $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="BUY" id="BB" >')
-    //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-    $("#BB").css("position", "fixed").css("top", 1).css("right", 60);
-    //$("#NB").css("border-radius", "15px")
-    $("#BB").css("margin", "5px");
-    $("#BB").css("width", "130px");
-    $("#BB").css("height", "40px");
-
-    $("#BB").css("color", "white");
-    $("#BB").css("background", "DodgerBlue");
-    $("#BB").css("border-color", "white");
-    $("#BB").click(function(){
-        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
-    });
-};
-
-function PurchaseNext(addresses, itemNumber){
-    $("#BB").click(function(){
-        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
-    });
-    
-    
 
  Promise.all([
     fetch("https://api.bscscan.com/api?module=account&action=txlist&address=" + filteredAddresses[itemNumber] +
@@ -212,7 +190,7 @@ function PurchaseNext(addresses, itemNumber){
 
 function PrintMatches(tokenMatches,scanTotal)
     {
-      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
+      const printDiv = document.querySelector("#ContentPlaceHolder1_collapsedLink_span");
       const heading = document.createElement("h1");
       heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
       //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
@@ -229,6 +207,35 @@ function PrintMatches(tokenMatches,scanTotal)
         printing.appendChild(listItem);
       }
     }
+});
 
+function Purchase(addresses, itemNumber){
+
+    $("#logoAndNav > nav > div.w-lg-auto").append('<input type="button" value="BUY" id="BB" >')
+    //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
+    $("#BB").css("position", "fixed").css("top", 1).css("right", 60);
+    //$("#NB").css("border-radius", "15px")
+    $("#BB").css("margin", "5px");
+    $("#BB").css("width", "130px");
+    $("#BB").css("height", "40px");
+
+    $("#BB").css("color", "DodgerBlue");
+    $("#BB").css("background", "white");
+    $("#BB").css("border-color", "DodgerBlue");
+    $("#BB").click(function(){
+        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
+    });
 };
+
+function PurchaseNext(addresses, itemNumber){
+    $("#BB").click(function(){
+        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
+    });
+};
+
+
+
+
+
+
 
