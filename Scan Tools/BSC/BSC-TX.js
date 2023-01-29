@@ -31,7 +31,7 @@ $(document).ready(function() {
     // FILTERING
     const topFilter = document.querySelector("#content > div.container.py-3.mn-b3 > div").remove();
     const bannerFilter = document.querySelector("#content > div:nth-child(10)").remove();
-    const sponsorFilter = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9").remove();
+    const sponsorFilter = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9 > div").remove();
     //const sponsorFilter2 = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div").remove();
     const commentsFilter = document.querySelector("#ContentPlaceHolder1_li_disqus").remove();
 
@@ -190,7 +190,7 @@ function Chart(addresses, itemNumber){
 
 function PrintMatches(tokenMatches,scanTotal)
     {
-      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
+      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9");
       const heading = document.createElement("h1");
       heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
       //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
