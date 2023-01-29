@@ -212,7 +212,7 @@ function PurchaseNext(addresses, itemNumber){
 
 function PrintMatches(tokenMatches,scanTotal)
     {
-      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9");
+      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8));
       const heading = document.createElement("h1");
       heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
       //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
