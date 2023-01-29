@@ -171,5 +171,66 @@ function PurchaseNext(addresses, itemNumber){
     $("#BB").click(function(){
         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
     });
+    
+    
+
+ Promise.all([
+    fetch("https://api.bscscan.com/api?module=account&action=txlist&address=" + filteredAddresses[itemNumber] +
+        "&startblock=0&endblock=99999999&page=1&offset=" + APIoffset +
+        "&sort=asc&apikey=" + APIkey).then(scan => scan.json()),
+    fetch("https://raw.githubusercontent.com/gabethomco/Masterlist/main/masterlist.json").then(masterlist => masterlist.json())
+    ]).then(([scan, masterlist]) => {
+
+   var scanDirty = scan.result.map(function(item)
+    {
+        return item.from;
+    });
+
+    var removeUndefined = scanDirty.filter(item => { return item !== undefined });
+    var removeDuplicates = [...new Set(removeUndefined)]
+    let scanClean = removeDuplicates.filter(function (item) {
+        return item.indexOf("s") !== 0;
+    });
+    var scanMapped = scanClean.slice(0, APImax);
+    var scanTotal = scanMapped.length;
+
+    var masterMapped = masterlist.map(function(item)
+    {
+        return item.token;
+    });
+
+      console.log(scanMapped);
+      console.log(masterMapped);
+
+  const tokenMatches = masterMapped.filter(element => scanMapped.includes(element));
+  console.log(tokenMatches);
+
+  PrintMatches(tokenMatches,scanTotal);
+
+}).catch((err) => {
+    console.log(err);
+});
+
+
+function PrintMatches(tokenMatches,scanTotal)
+    {
+      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9");
+      const heading = document.createElement("h1");
+      heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
+      //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
+      printDiv.appendChild(heading);
+      const printing = document.createElement("ul");
+      printDiv.appendChild(printing);
+
+      for (let pine in tokenMatches)
+      {
+        let value = tokenMatches[pine];
+        //console.log(result[pine]);
+        listItem = document.createElement("li");
+        listItem.innerHTML = value;
+        printing.appendChild(listItem);
+      }
+    }
+
 };
 
