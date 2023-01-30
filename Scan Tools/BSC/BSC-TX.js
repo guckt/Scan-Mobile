@@ -232,8 +232,3 @@ function PurchaseNext(addresses, itemNumber){
         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
     });
 };
-
-
-
-
-
