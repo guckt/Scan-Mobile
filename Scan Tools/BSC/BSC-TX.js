@@ -204,7 +204,7 @@ function PrintMatches(tokenMatches,scanTotal)
         //console.log(result[pine]);
         listItem = document.createElement("li");
         listItem.innerHTML = value;
-        printing.appendChild(listItem);
+        printDiv.appendChild(listItem);
       }
     }
 });
