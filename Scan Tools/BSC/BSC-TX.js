@@ -341,6 +341,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
     for(var i = 0; i < headers.length; i++) {
         headerRow.insertCell(i).innerHTML = headers[i];
      }
+     $('.log').remove();
     document.querySelector(".loader").style.display = "none"
     $(table).each(function(){$(this).find('tr:odd').css('background-color','#F9FAFD')});
 
@@ -448,7 +449,7 @@ function Loading(loader)
   logger.appendChild(log);
   log.className = 'log';
 
-  logger.style.paddingLeft = '200px';
+  logger.style.paddingLeft = '100px';
   loader.style.padding = '6px';
 
 
