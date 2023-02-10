@@ -349,7 +349,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         headerRow.insertCell(i).innerHTML = headers[i];
      }
     document.querySelector(".loader").style.display = "none"
-    document.querySelector('#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0').remove();
+    $(table).each(function(){$(this).find('tr:odd').css('background-color','#F8F9FB')});
 
     myTableDiv.append(table);
     console.timeEnd("Finished Table")
@@ -451,6 +451,8 @@ function Loading(loader)
   loader.appendChild(emoji);
   document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)  > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").after(loader);
   loader.setAttribute("align", "center");
+  document.querySelector('#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0').remove();
+
 
   const emojis = ["🕐", "🕜", "🕑","🕝", "🕒", "🕞", "🕓", "🕟", "🕔", "🕠", "🕕", "🕡", "🕖", "🕢",  "🕗", "🕣", "🕘", "🕤", "🕙",  "🕥", "🕚", "🕦",  "🕛", "🕧"];
 
