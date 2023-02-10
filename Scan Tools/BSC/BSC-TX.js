@@ -327,7 +327,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
            row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
           else
         row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + ".." + tokenMatches[i].slice(38,42) + '</a>';
-        row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
+        row.insertCell(1).innerHTML = Timer(epochMatch[i]- startTime);
         var date = new Date(epochMatch[i] *1000).toUTCString();
         row.insertCell(2).innerHTML = date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);;
         row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
@@ -391,6 +391,30 @@ async function MatchTimes(tokenMatches, scanTime, scanDirty)
           tempArray.push(scanTime[scanDirty.indexOf(tokenMatches[x])]);
         }
   return tempArray;
+}
+
+function Timer(temp)
+{
+  var timer;
+  var delta = temp;
+    var days = Math.floor(temp / 86400);
+    temp -= days * 86400;
+    var hours = Math.floor(temp / 3600) % 24;
+    temp -= hours * 3600;
+    var minutes = Math.floor(temp / 60) % 60;
+    temp -= minutes * 60;
+    var seconds = temp % 60;
+    console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
+      if  (delta > 86400)
+        timer = days + " day " + hours + " hr";
+      else if (delta > 3600)
+        timer = hours + " hr " + minutes + " min";
+      else if (delta > 60)
+        timer = minutes + " min " + seconds + " sec";
+      else if (delta <= 60)
+        timer = seconds + " seconds";
+
+    return timer;
 }
 
 async function MatchHold(tokenMatches, APIkey, filteredAddresses, decimal)
