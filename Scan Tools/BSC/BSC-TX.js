@@ -327,9 +327,9 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         if (i % 10) await new Promise(r => setTimeout(r, 30));
         var row = table.insertRow(i);
         if  (tokenMatches[i] == thisAddress)
-        row.insertCell(0).innerHTML = thisAddress;
+           row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
           else
-        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i] + '</a>';
+        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + "..." + tokenMatches[i].slice(37,42) + '</a>';
         row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
         row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,26);
         row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
