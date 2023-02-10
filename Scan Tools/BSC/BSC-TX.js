@@ -335,7 +335,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
           else
         row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + ".." + tokenMatches[i].slice(38,42) + '</a>';
         row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
-        row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,8) + new Date(epochMatch[i] *1000).toUTCString().slice(11,26);
+        row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,10) + new Date(epochMatch[i] *1000).toUTCString().slice(13,26);
         row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
         row.insertCell(4).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">all</a>';
         row.insertCell(5).innerHTML = projectMatches[i];
