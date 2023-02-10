@@ -319,7 +319,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   var table = document.createElement('TABLE');
   //table.border = '1';
   table.style.borderCollapse = 'separate';
-  table.style.borderSpacing = '4px';
+  table.style.borderSpacing = '2px';
   //table.style.textAlign = 'center';
   table.style.overflowX = 'auto';
   table.width = '100%';
@@ -349,7 +349,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         headerRow.insertCell(i).innerHTML = headers[i];
      }
     document.querySelector(".loader").style.display = "none"
-    $(table).each(function(){$(this).find('tr:odd').css('background-color','#F8F9FB')});
+    $(table).each(function(){$(this).find('tr:odd').css('background-color','#F7F8FE')});
 
     myTableDiv.append(table);
     console.timeEnd("Finished Table")
