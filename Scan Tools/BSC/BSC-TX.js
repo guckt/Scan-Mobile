@@ -323,6 +323,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   //table.style.textAlign = 'center';
   table.style.overflowX = 'auto';
   table.width = '100%';
+  table.style.whiteSpace = 'nowrap';
   table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
   //console.log(matchHoldings);
   var APIkey;
