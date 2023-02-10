@@ -169,6 +169,7 @@ function Chart(addresses, itemNumber){
                 document.querySelector("#ContentPlaceHolder1_maintable > hr:nth-child(15)").before(chart);
             }
         }
+      Progress("Finished HUD...");
     }
 
 GetPair(APIkey1, filteredAddresses[itemNumber], pairAddress, Matching, contract);
@@ -191,21 +192,9 @@ function Matching(pairAddress)
       fetch("https://api.bscscan.com/api?module=contract&action=getsourcecode&address=" + filteredAddresses[itemNumber] +
           "&apikey=" + APIkey1).then(contract => contract.json())
       ]).then(([scan, masterlist, masterlistfull, contract]) => {
+        
       console.timeEnd("Finished Block Fetch");
-
-
-      //var fuck = document.getElementById("dex");
-      //var elmnt = fuck.contentWindow.document.getElementsByClassName(".custom-1v4xcoh");
-
-      //console.log(elmnt);
-
-       //var frameContent = fuck.contentWindow.document.body.innerHTML;
-
-      //alert("frame content : " + frameContent);
-      //console.log(fuck.getElementsByClassName('chakra-text custom-1v4xcoh'));
-      //const elements = document.documentElement.getElementsByClassName(".chakra-text .custom-1v4xcoh");
-     
-
+      Progress("Finished Block Fetch...");
 
       var dec = document.documentElement.innerHTML.substring(document.documentElement.innerHTML.indexOf('decimals')).slice(10,12);
       console.log("DECIMALS: " + dec);
@@ -215,7 +204,6 @@ function Matching(pairAddress)
       {
           return item.from;
       });
-      //console.table(scanDirty);
 
       var scanTime = scan.result.map(function(item)
       {
@@ -240,7 +228,7 @@ function Matching(pairAddress)
 
     const unfilteredMatches = scanMapped.filter(element => masterMapped.includes(element));
 
-    GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, scanDirty, decimal, APIkey2, APIkey3);
+    GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, pairAddress, scanDirty, decimal, APIkey2, APIkey3);
 
     }).catch((err) => {
       console.log(err);
@@ -287,6 +275,8 @@ async function GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contra
       }
       console.log("pair address: " + pairAddress);
       console.timeEnd("Finished First Fetch");
+      Progress("Finished First Fetch...");
+
 
       if ((pairAddress == filteredAddresses)||(pairAddress == '0x0000000000000000000000000000000000000000'))
         {
@@ -298,7 +288,7 @@ async function GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contra
         Matching(pairAddress);
 }
 
-async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, scanDirty, decimal, APIkey2, APIkey3){
+async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, pairAddress, scanDirty, decimal, APIkey2, APIkey3){
 
   const thisAddress = document.querySelector("#spanFromAdd").innerHTML;
   console.log(thisAddress);
@@ -319,14 +309,16 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   var table = document.createElement('TABLE');
   //table.border = '1';
   table.style.borderCollapse = 'separate';
-  table.style.borderSpacing = '4px';
+  table.style.borderSpacing = '5px';
   table.style.overflowX = 'auto';
   table.width = '100%';
   table.style.whiteSpace = 'nowrap';
   table.style.textAlign = 'center';
-  table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
-  //console.log(matchHoldings);
+  var caption = table.createCaption();
+  caption.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned. " + "TOKEN: " + filteredAddresses[0] + " PAIR: " + pairAddress;
   var APIkey;
+        Progress("Generating table...")
+
   for(var i = 0; i < tokenMatches.length; i++) {
         if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
         if (i % 10) await new Promise(r => setTimeout(r, 30));
@@ -369,7 +361,6 @@ async function FilterContracts(unfilteredMatches, APIkey2, APIkey3)
         if (balance.result == null)
           tempArray.push(unfilteredMatches[i]);
     }
-  //console.table(tempArray);
   return tempArray;
 };
 
@@ -386,7 +377,6 @@ function RelatedProjects(tokenMatches, masterlistfull){
         }
       }
     }
-    //console.log(penile);
     tempArr1.push(tempArr2.join());
   }
   return tempArr1;
@@ -414,9 +404,6 @@ async function MatchHold(tokenMatches, APIkey, filteredAddresses, decimal)
      }
    else
       bal = balance.result
-    //console.log(bal.toFixed(3));
-  //bal = parseFloat(bal).toFixed(2);
-  //bal.toLocaleString('en-US', {maximumFractionDigits:2});
   return bal.toLocaleString('en-US', {maximumFractionDigits:2});
 };
 
@@ -454,6 +441,16 @@ function Loading(loader)
   loader.setAttribute("align", "center");
   document.querySelector('#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0').remove();
 
+  const logger = document.createElement("div");
+  loader.after(logger);
+  logger.className = 'logger';
+  const log = document.createElement("div");
+  logger.appendChild(log);
+  log.className = 'log';
+
+  logger.style.paddingLeft = '200px';
+  loader.style.padding = '6px';
+
 
   const emojis = ["🕐", "🕜", "🕑","🕝", "🕒", "🕞", "🕓", "🕟", "🕔", "🕠", "🕕", "🕡", "🕖", "🕢",  "🕗", "🕣", "🕘", "🕤", "🕙",  "🕥", "🕚", "🕦",  "🕛", "🕧"];
 
@@ -461,16 +458,22 @@ function Loading(loader)
 
   const loadEmojis = (arr) => {
       setInterval(() => {
-        //emoji.width = "50%";
         emoji.innerText = arr[Math.floor(Math.random() * arr.length)];
-        emoji.style.textAlign = "center";
       }, interval);
   }
-
   const init = () => {
     loadEmojis(emojis);
   }
   init();
+}
+
+function Progress(output)
+{
+  $('.log').remove();
+  const log = document.createElement("div");
+  $('.logger').append(log);
+  log.className = "log";
+  log.innerText = output;
 }
 
 function Purchase(addresses, itemNumber){
