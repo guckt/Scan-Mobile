@@ -15,10 +15,23 @@ $(document).ready(function() {
     var tokens = [];
     var addresses = [];
 
-    var APIkey = '4MZSGAQDPPK71GU6KK7ZTXDCPXN35V66EUU';
-    var APIoffset = 1000;
-    var APImax = 2000;
+    var APIkey1 = '4MZSGAQDPPK71GU6KK7ZTXDCPXN35V66EUU';
+    var APIkey2 = 'JJX3A2I7X6HXX1WP2MX8C319GV64B1WIVH';
+    var APIkey3 = 'BFBITW7576V32VJ134HK8VGFWPZDFRVTP1';
 
+
+    var APIpullTotal = 5000;
+    var APIdisplayed = 1000;
+
+    let filteredAddresses = [];
+    var pairAddress = "";
+
+    var address = [];
+
+    var decimal;
+
+    //var projectMatches = [];
+    //var matchHoldings = [];
 
     var ignore =['0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', //WBNB
                  '0xe9e7cea3dedca5984780bafc599bd69add087d56', //BUSD
@@ -26,8 +39,17 @@ $(document).ready(function() {
                  '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', //B-USDC
                  '0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3', //B-DAI
                  '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47', //B-ADA
-                 '0x55d398326f99059ff775485246999027b3197955']; //B-BUSD
+                 '0x55d398326f99059ff775485246999027b3197955', //B-BUSD
+                 '0x10ed43c718714eb63d5aa57b78b54704e256024e']; //Pancakeswap LP
 
+    var contract = false;
+
+    const loader = document.createElement("div");
+
+    if (TransactionType())
+    return;
+
+    Loading(loader);
     // FILTERING
     const topFilter = document.querySelector("#content > div.container.py-3.mn-b3 > div").remove();
     const bannerFilter = document.querySelector("#content > div:nth-child(10)").remove();
@@ -108,7 +130,7 @@ $(document).ready(function() {
 
     var removeUndefined = addresses.filter(item => { return item !== undefined });
     var removeDuplicates = [...new Set(removeUndefined)]
-    let filteredAddresses = removeDuplicates.filter(function (item) {
+    filteredAddresses = removeDuplicates.filter(function (item) {
         return item.indexOf("s") !== 0;
     });
 
@@ -149,65 +171,296 @@ function Chart(addresses, itemNumber){
         }
     }
 
+GetPair(APIkey1, filteredAddresses[itemNumber], pairAddress, Matching, contract);
 
- Promise.all([
-    fetch("https://api.bscscan.com/api?module=account&action=txlist&address=" + filteredAddresses[itemNumber] +
-        "&startblock=0&endblock=99999999&page=1&offset=" + APIoffset +
-        "&sort=asc&apikey=" + APIkey).then(scan => scan.json()),
-    fetch("https://raw.githubusercontent.com/gabethomco/Masterlist/main/masterlist.json").then(masterlist => masterlist.json())
-    ]).then(([scan, masterlist]) => {
 
-   var scanDirty = scan.result.map(function(item)
-    {
-        return item.from;
+function Matching(pairAddress)
+  {
+    Promise.all([
+      // Get normal transactions for token address
+      //fetch("https://api.bscscan.com/api?module=account&action=txlist&address=" + filteredAddresses[itemNumber] +
+      //    "&startblock=0&endblock=99999999&page=1&offset=" + APIpullTotal +
+      //   "&sort=asc&apikey=" + APIkey1).then(scan => scan.json()),
+
+      // Get BEP20 transactions for pair address
+      fetch("https://api.bscscan.com/api?module=account&action=tokentx&address=" + pairAddress +
+        "&startblock=0&endblock=99999999&page=1&offset=" + APIpullTotal +
+        "&sort=asc&apikey=" + APIkey1).then(scan => scan.json()),
+      fetch("https://raw.githubusercontent.com/gabethomco/Masterlist/main/masterlist.json").then(masterlist => masterlist.json()),
+      fetch("https://raw.githubusercontent.com/gabethomco/Masterlist/main/masterlistfull.json").then(masterlistfull => masterlistfull.json()),
+      fetch("https://api.bscscan.com/api?module=contract&action=getsourcecode&address=" + filteredAddresses[itemNumber] +
+          "&apikey=" + APIkey1).then(contract => contract.json())
+      ]).then(([scan, masterlist, masterlistfull, contract]) => {
+      console.timeEnd("Finished Block Fetch");
+
+
+      //var fuck = document.getElementById("dex");
+      //var elmnt = fuck.contentWindow.document.getElementsByClassName(".custom-1v4xcoh");
+
+      //console.log(elmnt);
+
+       //var frameContent = fuck.contentWindow.document.body.innerHTML;
+
+      //alert("frame content : " + frameContent);
+      //console.log(fuck.getElementsByClassName('chakra-text custom-1v4xcoh'));
+      //const elements = document.documentElement.getElementsByClassName(".chakra-text .custom-1v4xcoh");
+     
+
+
+      var dec = document.documentElement.innerHTML.substring(document.documentElement.innerHTML.indexOf('decimals')).slice(10,12);
+      console.log("DECIMALS: " + dec);
+      decimal = 1 + '0'.repeat(dec);
+
+     var scanDirty = scan.result.map(function(item)
+      {
+          return item.from;
+      });
+      //console.table(scanDirty);
+
+      var scanTime = scan.result.map(function(item)
+      {
+          return item.timeStamp;
+      });
+
+      var removeUndefined = scanDirty.filter(item => { return item !== undefined });
+      var removeDuplicates = [...new Set(removeUndefined)]
+      let scanClean = removeDuplicates.filter(function (item) {
+          return item.indexOf("s") !== 0;
+      });
+            //console.table(scanClean);
+
+
+      var scanMapped = scanClean.slice(0, APIdisplayed);
+      var scanTotal = scanMapped.length;
+
+      var masterMapped = masterlist.map(function(item)
+      {
+          return item.token;
+      });
+
+    const unfilteredMatches = scanMapped.filter(element => masterMapped.includes(element));
+
+    GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, scanDirty, decimal, APIkey2, APIkey3);
+
+    }).catch((err) => {
+      console.log(err);
     });
+  }
+});
 
-    var removeUndefined = scanDirty.filter(item => { return item !== undefined });
-    var removeDuplicates = [...new Set(removeUndefined)]
-    let scanClean = removeDuplicates.filter(function (item) {
-        return item.indexOf("s") !== 0;
-    });
-    var scanMapped = scanClean.slice(0, APImax);
-    var scanTotal = scanMapped.length;
+async function GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contract)
+{
+      var contrived;
+      contrived = await fetch("https://api.bscscan.com/api?module=account&action=tokentx&address=" + filteredAddresses +
+          "&startblock=0&endblock=99999999&page=1&offset=" + 30 +
+          "&sort=asc&apikey=" + APIkey1).then(contrived => contrived.json())
+          console.table(contrived.result);
 
-    var masterMapped = masterlist.map(function(item)
-    {
-        return item.token;
-    });
+        if((!Object.keys(contrived.result).length) || (contract)){
+          console.log("no data found");
 
-      console.log(scanMapped);
-      console.log(masterMapped);
+          contrived = await fetch("https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=" + filteredAddresses +
+          "&startblock=0&endblock=99999999&page=1&offset=" + 30 +
+          "&sort=asc&apikey=" + APIkey1).then(contrived => contrived.json())
+          contract = false;
 
-  const tokenMatches = masterMapped.filter(element => scanMapped.includes(element));
+        }
+
+      var contrivedScan = contrived.result.map(function(item)
+      {
+          return item.from;
+      });
+
+      let freq = 0;
+      var n = contrivedScan.length;
+        for(let i=0;i<n;i++){
+          let count = 0;
+          for(let j=i+1;j<n;j++){
+              if(JSON.stringify(contrivedScan[j]) === JSON.stringify(contrivedScan[i])){
+                  count++;
+              }
+          }
+          if(count>=freq){
+              pairAddress = contrivedScan[i];
+              freq = count;
+          }
+      }
+      console.log("pair address: " + pairAddress);
+      console.timeEnd("Finished First Fetch");
+
+      if ((pairAddress == filteredAddresses)||(pairAddress == '0x0000000000000000000000000000000000000000'))
+        {
+          contract = true;
+          console.log("fuck");
+          GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contract);
+        }
+      if (!contract)
+        Matching(pairAddress);
+}
+
+async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, scanDirty, decimal, APIkey2, APIkey3){
+
+  const thisAddress = document.querySelector("#spanFromAdd").innerHTML;
+  console.log(thisAddress);
+
+  var tokenMatches = await FilterContracts(unfilteredMatches, APIkey2, APIkey3)
   console.log(tokenMatches);
 
-  PrintMatches(tokenMatches,scanTotal);
+  var epochMatch = await MatchTimes(tokenMatches, scanTime, scanDirty)
 
-}).catch((err) => {
-    console.log(err);
-});
+  //var myDate = new Date(earliestDate *1000);
+  var startTime = epochMatch[0];
 
+  var projectMatches = RelatedProjects(tokenMatches, masterlistfull);
 
-function PrintMatches(tokenMatches,scanTotal)
-    {
-      const printDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9");
-      const heading = document.createElement("h1");
-      heading.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
-      //heading.innerHTML = "Scanned: " + scanTotal + " Matches: " + tokenMatches.length ;
-      printDiv.appendChild(heading);
-      const printing = document.createElement("ul");
-      printDiv.appendChild(printing);
+  var headers = ['wallet', 'timer', 'date', 'holding', 'matches', 'transactions'];
 
-      for (let pine in tokenMatches)
-      {
-        let value = tokenMatches[pine];
-        //console.log(result[pine]);
-        listItem = document.createElement("li");
-        listItem.innerHTML = value;
-        printDiv.appendChild(listItem);
+  var myTableDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
+  var table = document.createElement('TABLE');
+  //table.border = '1';
+  table.width = '100%';
+  table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
+  //console.log(matchHoldings);
+  var APIkey;
+  for(var i = 0; i < tokenMatches.length; i++) {
+        if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
+        if (i % 10) await new Promise(r => setTimeout(r, 30));
+        var row = table.insertRow(i);
+        if  (tokenMatches[i] == thisAddress)
+        row.insertCell(0).innerHTML = thisAddress;
+          else
+        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i] + '</a>';
+        row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
+        row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,26);
+        row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
+        row.insertCell(4).innerHTML = projectMatches[i];
+        row.insertCell(5).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">all transfers</a>';
+
+  }
+    var header = table.createTHead();
+    var headerRow = header.insertRow(0);
+    for(var i = 0; i < headers.length; i++) {
+        headerRow.insertCell(i).innerHTML = headers[i];
+     }
+    document.querySelector(".loader").style.display = "none"
+    document.querySelector('#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0').remove();
+
+    myTableDiv.append(table);
+    console.timeEnd("Finished Table")
+};
+
+async function FilterContracts(unfilteredMatches, APIkey2, APIkey3)
+{
+  let tempArray = [];
+    for(var i = 0; i < unfilteredMatches.length; i++) {
+      if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
+      if (i % 10) await new Promise(r => setTimeout(r, 30));
+       const balance = await fetch("https://api.bscscan.com/api?module=contract&action=getcontractcreation&contractaddresses=" + unfilteredMatches[i] +
+          "&apikey=" + APIkey).then(balance => balance.json());
+        if (balance.result == null)
+          tempArray.push(unfilteredMatches[i]);
+    }
+  //console.table(tempArray);
+  return tempArray;
+};
+
+function RelatedProjects(tokenMatches, masterlistfull){
+  let tempArr1 = [];
+  for (let i in tokenMatches){
+    var tempArr2=[];
+
+    for(let value of Object.values(masterlistfull)){
+      for(let matchMaker of Object.values(value)){
+        if (matchMaker == tokenMatches[i])
+        {
+          tempArr2.push(Object.keys(value).filter(k=>value[k]===tokenMatches[i]));
+        }
       }
     }
-});
+    //console.log(penile);
+    tempArr1.push(tempArr2.join());
+  }
+  return tempArr1;
+};
+
+async function MatchTimes(tokenMatches, scanTime, scanDirty)
+{
+  let tempArray = [];
+    for (var x in tokenMatches)
+        {
+          tempArray.push(scanTime[scanDirty.indexOf(tokenMatches[x])]);
+        }
+  return tempArray;
+}
+
+async function MatchHold(tokenMatches, APIkey, filteredAddresses, decimal)
+{
+   var bal;
+   const balance = await fetch("https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=" + filteredAddresses +
+      "&address=" + tokenMatches +
+      "&tag=latest&apikey=" + APIkey).then(balance => balance.json());
+   if (balance.result != 0)
+     {
+       bal = balance.result / decimal;
+     }
+   else
+      bal = balance.result
+    //console.log(bal.toFixed(3));
+  //bal = parseFloat(bal).toFixed(2);
+  //bal.toLocaleString('en-US', {maximumFractionDigits:2});
+  return bal.toLocaleString('en-US', {maximumFractionDigits:2});
+};
+
+
+function TransactionType()
+  {
+    console.time("Finished First Fetch");
+    console.time("Finished Block Fetch");
+    console.time("Finished Table");
+
+    if (document.querySelector("#inputdata").innerHTML.indexOf("contribute") != -1) {
+    Contribute();
+    return true;
+  }
+};
+
+function Contribute()
+{
+  const pink = document.querySelector("#contractCopy").innerHTML;
+
+  var pinksale = document.createElement("iframe");
+          pinksale.setAttribute("src", "https://www.pinksale.finance/launchpad/" + pink + "?chain=BSC");
+          pinksale.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
+          pinksale.style.width = "100%";
+          pinksale.style.height = "800px";
+          document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8) > div.col-md-9").before(pinksale);
+};
+
+function Loading(loader)
+{
+  loader.className = "loader";
+  const emoji = document.createElement("div");
+  loader.appendChild(emoji);
+  document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)  > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").after(loader);
+  loader.setAttribute("align", "center");
+
+  const emojis = ["🕐", "🕜", "🕑","🕝", "🕒", "🕞", "🕓", "🕟", "🕔", "🕠", "🕕", "🕡", "🕖", "🕢",  "🕗", "🕣", "🕘", "🕤", "🕙",  "🕥", "🕚", "🕦",  "🕛", "🕧"];
+
+  const interval = 100;
+
+  const loadEmojis = (arr) => {
+      setInterval(() => {
+        //emoji.width = "50%";
+        emoji.innerText = arr[Math.floor(Math.random() * arr.length)];
+        emoji.style.textAlign = "center";
+      }, interval);
+  }
+
+  const init = () => {
+    loadEmojis(emojis);
+  }
+  init();
+}
 
 function Purchase(addresses, itemNumber){
 
