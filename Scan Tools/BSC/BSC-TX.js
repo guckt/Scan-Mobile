@@ -318,6 +318,8 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   var myTableDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
   var table = document.createElement('TABLE');
   //table.border = '1';
+  table.style.borderCollapse = 'separate';
+  table.style.borderSpacing = '10px';
   table.width = '100%';
   table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
   //console.log(matchHoldings);
@@ -329,7 +331,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         if  (tokenMatches[i] == thisAddress)
            row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
           else
-        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + "..." + tokenMatches[i].slice(37,42) + '</a>';
+        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + "." + tokenMatches[i].slice(38,42) + '</a>';
         row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
         row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,26);
         row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
