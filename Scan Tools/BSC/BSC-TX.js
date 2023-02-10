@@ -319,7 +319,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   var table = document.createElement('TABLE');
   //table.border = '1';
   table.style.borderCollapse = 'separate';
-  table.style.borderSpacing = '10px';
+  table.style.borderSpacing = '4px';
   //table.style.textAlign = 'center';
   table.style.overflowX = 'auto';
   table.width = '100%';
