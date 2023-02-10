@@ -352,6 +352,8 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
 async function FilterContracts(unfilteredMatches, APIkey2, APIkey3)
 {
   let tempArray = [];
+   var APIkey;
+
     for(var i = 0; i < unfilteredMatches.length; i++) {
       if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
       if (i % 10) await new Promise(r => setTimeout(r, 30));
