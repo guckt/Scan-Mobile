@@ -313,16 +313,16 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
 
   var projectMatches = RelatedProjects(tokenMatches, masterlistfull);
 
-  var headers = ['wallet', 'timer', 'date', 'holding', 'matches', 'transactions'];
+  var headers = ['wallet', 'time', 'date', 'bal', 'all', 'matches'];
 
   var myTableDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
   var table = document.createElement('TABLE');
   //table.border = '1';
   table.style.borderCollapse = 'separate';
   table.style.borderSpacing = '10px';
-  table.style.textAlign = 'center';
+  //table.style.textAlign = 'center';
   table.style.overflowX = 'auto';
-  table.width = '50%';
+  table.width = '100%';
   table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
   //console.log(matchHoldings);
   var APIkey;
@@ -333,12 +333,13 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         if  (tokenMatches[i] == thisAddress)
            row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
           else
-        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + "." + tokenMatches[i].slice(38,42) + '</a>';
+        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + ".." + tokenMatches[i].slice(38,42) + '</a>';
         row.insertCell(1).innerHTML = new Date((epochMatch[i]- startTime)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
-        row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,26);
+        row.insertCell(2).innerHTML = new Date(epochMatch[i] *1000).toUTCString().slice(4,8) + new Date(epochMatch[i] *1000).toUTCString().slice(11,26);
         row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
-        row.insertCell(4).innerHTML = projectMatches[i];
-        row.insertCell(5).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">all transfers</a>';
+        row.insertCell(4).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">all</a>';
+        row.insertCell(5).innerHTML = projectMatches[i];
+
 
   }
     var header = table.createTHead();
