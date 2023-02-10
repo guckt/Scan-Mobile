@@ -349,7 +349,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         headerRow.insertCell(i).innerHTML = headers[i];
      }
     document.querySelector(".loader").style.display = "none"
-    $(table).each(function(){$(this).find('tr:odd').css('background-color','#F7F8FE')});
+    $(table).each(function(){$(this).find('tr:odd').css('background-color','#F9FAFD')});
 
     myTableDiv.append(table);
     console.timeEnd("Finished Table")
