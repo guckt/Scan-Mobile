@@ -315,7 +315,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   table.style.whiteSpace = 'nowrap';
   table.style.textAlign = 'center';
   var caption = table.createCaption();
-  caption.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned. " + "TOKEN: " + filteredAddresses[0] + " PAIR: " + pairAddress;
+  caption.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned. " + " PAIR: " + pairAddress;
   var APIkey;
         Progress("Generating table...")
 
