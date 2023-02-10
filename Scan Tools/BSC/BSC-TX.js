@@ -320,6 +320,8 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
   //table.border = '1';
   table.style.borderCollapse = 'separate';
   table.style.borderSpacing = '10px';
+  table.style.textAlign = 'center';
+  table.style.overflowX = 'scroll';
   table.width = '100%';
   table.createCaption().innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned";
   //console.log(matchHoldings);
