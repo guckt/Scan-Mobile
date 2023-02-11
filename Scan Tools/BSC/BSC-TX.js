@@ -326,7 +326,7 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
         if  (tokenMatches[i] == thisAddress)
            row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
           else
-        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + ".." + tokenMatches[i].slice(38,42) + '</a>';
+        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + "" + tokenMatches[i].slice(38,42) + '</a>';
         row.insertCell(1).innerHTML = Timer(epochMatch[i]- startTime);
         var date = new Date(epochMatch[i] *1000).toUTCString();
         row.insertCell(2).innerHTML = date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);;
@@ -406,13 +406,13 @@ function Timer(temp)
     var seconds = temp % 60;
     console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
       if  (delta > 86400)
-        timer = days + " day " + hours + " hr";
+        timer = days + " d " + hours + " h";
       else if (delta > 3600)
-        timer = hours + " hr " + minutes + " min";
+        timer = hours + " h " + minutes + " n";
       else if (delta > 60)
-        timer = minutes + " min " + seconds + " sec";
+        timer = minutes + " m " + seconds + " s";
       else if (delta <= 60)
-        timer = seconds + " seconds";
+        timer = seconds + " s";
 
     return timer;
 }
