@@ -275,7 +275,7 @@ async function GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contra
       }
       console.log("pair address: " + pairAddress);
       console.timeEnd("Finished First Fetch");
-      Progress("Finished First Fetch...");
+      //Progress("Finished First Fetch...");
 
 
       if ((pairAddress == filteredAddresses)||(pairAddress == '0x0000000000000000000000000000000000000000'))
@@ -284,56 +284,85 @@ async function GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contra
           console.log("fuck");
           GetPair(APIkey1, filteredAddresses, pairAddress, Matching, contract);
         }
+    
+          Progress("Finding Block Fetch...");
+
       if (!contract)
         Matching(pairAddress);
 }
 
-async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, pairAddress, scanDirty, decimal, APIkey2, APIkey3){
+async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, scanTime, masterlistfull, pairAddress, scanDirty, decimal, APIkey1, APIkey2, APIkey3){
+
+
 
   const thisAddress = document.querySelector("#spanFromAdd").innerHTML;
-  console.log(thisAddress);
+  //console.log(thisAddress);
 
-  var tokenMatches = await FilterContracts(unfilteredMatches, APIkey2, APIkey3)
-  console.log(tokenMatches);
+  Progress("Finding First Transaction...")
+
+  const firstTransaction = await FirstTransaction(scanDirty, scanTime, APIkey1, APIkey2, APIkey3)
+    console.log(firstTransaction);
+
+  Progress("Validating Token Matches...")
+
+  var tokenMatches = await FilterContracts(unfilteredMatches, APIkey1, APIkey2, APIkey3)
+  //console.log(tokenMatches);
+  Progress("Finding Match Times...")
 
   var epochMatch = await MatchTimes(tokenMatches, scanTime, scanDirty)
 
   //var myDate = new Date(earliestDate *1000);
-  var startTime = epochMatch[0];
+  //var startTime = epochMatch[0];
+  Progress("Finding Project Matches...")
 
   var projectMatches = RelatedProjects(tokenMatches, masterlistfull);
 
-  var headers = ['wallet', 'time', 'date', 'bal', 'all', 'matches'];
+  Progress("Generating Table...")
+
+  var headers = ['#', 'wallet', 'after', 'date', 'bal', 'match', '$'];
 
   var myTableDiv = document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(8)");
   var table = document.createElement('TABLE');
-  //table.border = '1';
+
   table.style.borderCollapse = 'separate';
-  table.style.borderSpacing = '5px';
-  table.style.overflowX = 'auto';
+  table.style.borderSpacing = '4px';
+  //table.style.textAlign = 'center';
+  table.style.overflowX = 'scroll';
   table.width = '100%';
-  table.style.whiteSpace = 'nowrap';
-  table.style.textAlign = 'center';
   var caption = table.createCaption();
-  caption.innerHTML = tokenMatches.length + " matches of " + scanTotal + " addresses scanned. " + " PAIR: " + pairAddress;
+  caption.style.whiteSpace =  'normal';
+  caption.style.overflowX = 'auto';
+
+  caption.innerHTML = tokenMatches.length + " matches of  " + scanTotal  + " addresses scanned. " + "TOKEN: " + filteredAddresses[0] + " PAIR: " + pairAddress;
+  //console.log(matchHoldings);
   var APIkey;
-        Progress("Generating table...")
 
   for(var i = 0; i < tokenMatches.length; i++) {
-        if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
-        if (i % 10) await new Promise(r => setTimeout(r, 30));
-        var row = table.insertRow(i);
-        if  (tokenMatches[i] == thisAddress)
-           row.insertCell(0).innerHTML = thisAddress.slice(0,5) + "..." + thisAddress.slice(37,42);
-          else
-        row.insertCell(0).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,4) + "" + tokenMatches[i].slice(38,42) + '</a>';
-        row.insertCell(1).innerHTML = Timer(epochMatch[i]- startTime);
-        var date = new Date(epochMatch[i] *1000).toUTCString();
-        row.insertCell(2).innerHTML = date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);;
-        row.insertCell(3).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
-        row.insertCell(4).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">all</a>';
-        row.insertCell(5).innerHTML = projectMatches[i];
+    if (i % 3 == 0)
+      APIkey = APIkey1;
+    else if (i % 3 == 1)
+      APIkey = APIkey2;
+    else if (i % 3 == 2)
+      APIkey = APIkey3;
+    if (i % 15) await new Promise(r => setTimeout(r, 12));
+      var row = table.insertRow(i);
+      row.insertCell(0).innerHTML = i + 1;;
+      if  (tokenMatches[i] == thisAddress)
+      row.insertCell(1).innerHTML = thisAddress;
+        else
+      row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i] + '</a>';
+      //row.insertCell(1).innerHTML = new Date((epochMatch[i]- firstTransaction)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
+      row.insertCell(2).innerHTML = Timer(epochMatch[i]- firstTransaction);
+      var date = new Date(epochMatch[i] *1000).toUTCString();
+      row.insertCell(3).innerHTML = date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);
+      row.insertCell(4).innerHTML = await MatchHold(tokenMatches[i], APIkey, filteredAddresses[0], decimal);
+      row.insertCell(5).innerHTML = projectMatches[i];
+      row.insertCell(6).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses[0] +'?a='+tokenMatches[i]+'">$</a>';
 
+    //if (i == tokenMatches.length)
+    //{
+    //}
+        Progress("Generating table " + i + "/" + tokenMatches.length)
 
   }
     var header = table.createTHead();
@@ -341,29 +370,69 @@ async function GenerateTable(unfilteredMatches, scanTotal, filteredAddresses, sc
     for(var i = 0; i < headers.length; i++) {
         headerRow.insertCell(i).innerHTML = headers[i];
      }
-     $('.log').remove();
+
     document.querySelector(".loader").style.display = "none"
+    $('.log').remove();
     $(table).each(function(){$(this).find('tr:odd').css('background-color','#F9FAFD')});
 
     myTableDiv.append(table);
     console.timeEnd("Finished Table")
 };
 
-async function FilterContracts(unfilteredMatches, APIkey2, APIkey3)
+async function FilterContracts(unfilteredMatches, APIkey1, APIkey2, APIkey3)
 {
+  var APIkey;
   let tempArray = [];
-   var APIkey;
-
     for(var i = 0; i < unfilteredMatches.length; i++) {
-      if (i % 2) APIkey = APIkey2; else APIkey = APIkey3;
-      if (i % 10) await new Promise(r => setTimeout(r, 30));
+      if (i % 3 == 0)
+      APIkey = APIkey1;
+      else if (i % 3 == 1)
+      APIkey = APIkey2;
+      else if (i % 3 == 2)
+      APIkey = APIkey3;
+      if (i % 15) await new Promise(r => setTimeout(r, 12));
        const balance = await fetch("https://api.bscscan.com/api?module=contract&action=getcontractcreation&contractaddresses=" + unfilteredMatches[i] +
           "&apikey=" + APIkey).then(balance => balance.json());
         if (balance.result == null)
           tempArray.push(unfilteredMatches[i]);
+        console.log(balance.result);
+        Progress("Validating Addresses " + i + "/" + unfilteredMatches.length)
+
     }
+  //console.table(tempArray);
   return tempArray;
 };
+
+async function FirstTransaction(scanDirty, scanTime, APIkey1, APIkey2, APIkey3)
+{
+  var firstTransaction = false;
+  var i = 0;
+  var APIkey;
+  while (!firstTransaction)
+    {
+      console.log(scanDirty[i]);
+      if (i % 3 == 0)
+      APIkey = APIkey1;
+     else if (i % 3 == 1)
+      APIkey = APIkey2;
+      else if (i % 3 == 2)
+      APIkey = APIkey3;
+      if (i % 15) await new Promise(r => setTimeout(r, 12));
+       const balance = await fetch("https://api.bscscan.com/api?module=contract&action=getcontractcreation&contractaddresses=" + scanDirty[i] +
+          "&apikey=" + APIkey).then(balance => balance.json());
+        if (balance.result == null)
+          {
+            console.log(balance.result)
+            return scanTime[i]
+          }
+      i++;
+      if (i > 20)
+        {
+          Progress("Validating Addresses broked");
+          return;
+        }
+    }
+}
 
 function RelatedProjects(tokenMatches, masterlistfull){
   let tempArr1 = [];
@@ -378,6 +447,7 @@ function RelatedProjects(tokenMatches, masterlistfull){
         }
       }
     }
+    //console.log(penile);
     tempArr1.push(tempArr2.join());
   }
   return tempArr1;
@@ -404,15 +474,15 @@ function Timer(temp)
     var minutes = Math.floor(temp / 60) % 60;
     temp -= minutes * 60;
     var seconds = temp % 60;
-    console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
+    //console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
       if  (delta > 86400)
-        timer = days + " d " + hours + " h";
+        timer = days + " day " + hours + " hr";
       else if (delta > 3600)
-        timer = hours + " h " + minutes + " n";
+        timer = hours + " hr " + minutes + " min";
       else if (delta > 60)
-        timer = minutes + " m " + seconds + " s";
+        timer = minutes + " min " + seconds + " sec";
       else if (delta <= 60)
-        timer = seconds + " s";
+        timer = seconds + " seconds";
 
     return timer;
 }
@@ -425,12 +495,17 @@ async function MatchHold(tokenMatches, APIkey, filteredAddresses, decimal)
       "&tag=latest&apikey=" + APIkey).then(balance => balance.json());
    if (balance.result != 0)
      {
-       bal = balance.result / decimal;
+       bal = balance.result ;
      }
    else
       bal = balance.result
+  console.log(balance.result)
+    //console.log(bal.toFixed(3));
+  //bal = parseFloat(bal).toFixed(2);
+  //bal.toLocaleString('en-US', {maximumFractionDigits:2});
   return bal.toLocaleString('en-US', {maximumFractionDigits:2});
 };
+
 
 
 function TransactionType()
