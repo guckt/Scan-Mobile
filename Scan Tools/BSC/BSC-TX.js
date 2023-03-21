@@ -1039,7 +1039,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
           {
             var index = tokenMatches.indexOf(dupes[i])
             var interactedRow = $('<tr class="newRow"><td>'+ tokenOrder[index] +
-           '</td><td>'+ '<a href="https://bscscan.com/address/' + dupes[i] +'">' + tokenMatches[i].slice(0,5) + '..' +'</a>' +
+           '</td><td>'+ '<a href="https://bscscan.com/address/' + dupes[i] +'">' + dupes[i].slice(0,5) + '..' +'</a>' +
            '</td><td colspan="2">'+ "" + await projectMatches[i].slice(9) +
            //'</td><td>'+ "Last Active" +
            '</td><td>' + "⎆ $" + await BNBbalance(dupes[i], decimal, priceBNB, await Key(i)) +
@@ -1050,7 +1050,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
         else
           {
             var interactedRow = $('<tr class="newRow"><td>'+""+
-           '</td><td>'+ '<a href="https://bscscan.com/address/' + dupes[i] +'">' + tokenMatches[i].slice(0,5) + '..' +'</a>' +
+           '</td><td>'+ '<a href="https://bscscan.com/address/' + dupes[i] +'">' + dupes[i].slice(0,5) + '..' +'</a>' +
            '</td><td colspan="2">'+ "" + await projectMatches[i].slice(9) +
            //'</td><td>'+ "Last Active" +
            '</td><td>' + "⎆ $" + await BNBbalance(dupes[i], decimal, priceBNB, await Key(i)) +
