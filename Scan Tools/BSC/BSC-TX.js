@@ -889,7 +889,7 @@ async function ExpandRows(filteredAddresses, tokenMatches, projectMatches, decim
             if (rowID != "")
               {
                  Transactions(filteredAddresses, tokenMatches, projectMatches, decimal, rowID, tokenPrice, priceBNB)
-                await new Promise(r => setTimeout(r, 300));
+                await new Promise(r => setTimeout(r, 500));
                 i++;
 
               }
@@ -1043,7 +1043,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
            '</td><td colspan="2">'+ "" + await projectMatches[i].slice(9) +
            //'</td><td>'+ "Last Active" +
            '</td><td>' + "⎆ $" + await BNBbalance(dupes[i], decimal, priceBNB, await Key(i)) +
-           '</td><td>'+  "" + await projectMatches[i].slice(0,8) +
+           '</td><td>'+  "" + await projectMatches[i].slice(0,4) +
            '</td><td>' + '<a href="https://bscscan.com/myaddress?cmd=addnew&a=' + dupes[i] +'#add">#</a>' +
            '</td></tr>');
           }
@@ -1054,7 +1054,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
            '</td><td colspan="2">'+ "" + await projectMatches[i].slice(9) +
            //'</td><td>'+ "Last Active" +
            '</td><td>' + "⎆ $" + await BNBbalance(dupes[i], decimal, priceBNB, await Key(i)) +
-           '</td><td>'+  "" + await projectMatches[i].slice(0,8) +
+           '</td><td>'+  "" + await projectMatches[i].slice(0,4) +
            '</td><td>' + '<a href="https://bscscan.com/myaddress?cmd=addnew&a=' + dupes[i] +'#add">#</a>' +
            '</td></tr>');
           }
