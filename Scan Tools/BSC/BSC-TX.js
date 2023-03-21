@@ -535,7 +535,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
       if  (tokenMatches[i] == thisAddress)
       row.insertCell(1).innerHTML = thisAddress;
         else
-      row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i] + '</a>';
+      row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + '</a>';
       //row.insertCell(1).innerHTML = new Date((epoc
       //hMatch[i]- firstTransaction)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
       var time = tokenTimes[i]- startTime
@@ -710,13 +710,13 @@ function Timer(temp)
     var seconds = time % 60;
     //console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
       if  (delta > 86400)
-        timer = days + " day " + hours + " hr";
+        timer = days + " d " + hours + " h";
       else if (delta > 3600)
-        timer = hours + " hr " + minutes + " min";
+        timer = hours + " h " + minutes + " m";
       else if (delta > 60)
-        timer = minutes + " min " + seconds + " sec";
+        timer = minutes + " m " + seconds + " s";
       else if (delta <= 60)
-        timer = seconds + " seconds";
+        timer = seconds + " sec";
 
     if (temp < 0)
       return "-" + timer;
@@ -978,7 +978,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
     else
       {
         broked = broked + 1;
-        $("#progress2").text(broked + " broked. Latest: " + match)
+        $("#progress2").text(broked + " broked")
       }
 
     if (j == tokenMatches.length)
