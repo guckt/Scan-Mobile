@@ -849,11 +849,11 @@ async function Transactions(filteredAddresses, tokenMatches, projectMatches, dec
 
       var tempOut = (totalOut / decimal).toFixed(20);
       var balOut = (Math.trunc(tempOut) * tokenPrice);
-      var balanceOut = "$"+balOut.toLocaleString('en-US', {maximumFractionDigits:2});
+      var balanceOut = "$"+balOut.toLocaleString('en-US', {maximumFractionDigits:0});
 
       var tempIn = (totalIn / decimal).toFixed(20);
       var balIn = (Math.trunc(tempIn) * tokenPrice);
-      var balanceIn = "$"+balIn.toLocaleString('en-US', {maximumFractionDigits:2});
+      var balanceIn = "$"+balIn.toLocaleString('en-US', {maximumFractionDigits:0});
 
       $("#in" + row).text("⤥ " + balanceIn)
       $("#out" + row).text("⤤ " + balanceOut)
@@ -1087,7 +1087,7 @@ async function BNBbalance(tokenMatches, decimal, priceBNB, APIKey)
   "&apikey=" + APIKey).then(tempBalance => tempBalance.json());
   //console.log(tempBalance)
   var bal = ((tempBalance.result / 1000000000000000000).toFixed(20) * priceBNB)
-  return bal.toLocaleString('en-US', {maximumFractionDigits:2});
+  return bal.toLocaleString('en-US', {maximumFractionDigits:0});
 
 };
 
