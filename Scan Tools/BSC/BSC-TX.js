@@ -535,7 +535,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
       if  (tokenMatches[i] == thisAddress)
       row.insertCell(1).innerHTML = thisAddress;
         else
-      row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + '</a>';
+      row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + '..' +'</a>';
       //row.insertCell(1).innerHTML = new Date((epoc
       //hMatch[i]- firstTransaction)*1000).toLocaleTimeString('de-DE', {timeZone: 'UTC'});
       var time = tokenTimes[i]- startTime
@@ -543,7 +543,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
       var date = new Date(tokenTimes[i] *1000).toUTCString();
       row.insertCell(3).innerHTML = date.slice(17,26);//date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);
       row.insertCell(4).innerHTML = await MatchHold(tokenMatches, filteredAddresses, decimal, tokenPrice, tokenAmount[i]);
-      row.insertCell(5).innerHTML = projectMatches[i].slice(0,8);
+      row.insertCell(5).innerHTML = projectMatches[i].slice(0,4);
       //row.insertCell(6).innerHTML = orderNumber[i];
       row.insertCell(6).innerHTML = '<a href="https://bscscan.com/token/' + filteredAddresses +'?a='+tokenMatches[i]+'">$</a>';
 
@@ -904,7 +904,7 @@ async function ExpandRows(filteredAddresses, tokenMatches, projectMatches, decim
 async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenPrice, priceBNB, ignore, twos)
 {
   var interactedRow = $('<tr class="newRow"><td>'+"#"+
-   '</td><td ID="progress">' + "1 of " + tokenMatches.length + " friends scanned" +
+   '</td><td ID="progress">' + "1 of " + tokenMatches.length + "" +
    '</td><td ID="progress2">' + "" +
    '</td><td ID="progress3">' + "" +
    '</td><td ID="progress4">' + "" +
@@ -983,7 +983,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
 
     if (j == tokenMatches.length)
     {
-      $("#progress").text("Friends found in masterlistfull: ")
+      $("#progress").text("Frens: ")
       $("#progress1").text("")
       //$("#progress2").text("")
       $("#progress3").text("last")
@@ -992,7 +992,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
       $("#progress6").text("#")
     }
     else
-      $("#progress").text(j + " of " + tokenMatches.length + " friends scanned")
+      $("#progress").text(j + " of " + tokenMatches.length + "")
 
     j++;
   }
@@ -1070,7 +1070,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
       $(".newRow").css('background-color','white');
   if (j == 0)
     {
-      $("#progress").text("No friends detected")
+      $("#progress").text("0 frens")
       $("#progress1").text("")
      // $("#progress2").text("")
       $("#progress3").text("")
