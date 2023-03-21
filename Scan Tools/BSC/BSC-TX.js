@@ -541,7 +541,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
       var time = tokenTimes[i]- startTime
       row.insertCell(2).innerHTML = Timer(time);
       var date = new Date(tokenTimes[i] *1000).toUTCString();
-      row.insertCell(3).innerHTML = date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);
+      row.insertCell(3).innerHTML = date.slice(17,26);//date.slice(8,11) + "-" + date.slice(5,7) + "-" + date.slice(14,16) + " " + date.slice(17,26);
       row.insertCell(4).innerHTML = await MatchHold(tokenMatches, filteredAddresses, decimal, tokenPrice, tokenAmount[i]);
       row.insertCell(5).innerHTML = projectMatches[i].slice(0,8);
       //row.insertCell(6).innerHTML = orderNumber[i];
@@ -710,13 +710,13 @@ function Timer(temp)
     var seconds = time % 60;
     //console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
       if  (delta > 86400)
-        timer = days + " d " + hours + " h";
+        timer = days + "d " + hours + "h";
       else if (delta > 3600)
-        timer = hours + " h " + minutes + " m";
+        timer = hours + "h " + minutes + "m";
       else if (delta > 60)
-        timer = minutes + " m " + seconds + " s";
+        timer = minutes + "m " + seconds + "s";
       else if (delta <= 60)
-        timer = seconds + " sec";
+        timer = seconds + "s";
 
     if (temp < 0)
       return "-" + timer;
@@ -738,7 +738,7 @@ async function MatchHold(tokenMatches, filteredAddresses, decimal, tokenPrice, p
        {
          var temp = (tempBalance.result / decimal).toFixed(20)
          var bal = (Math.trunc(temp) * tokenPrice);
-         return "$"+bal.toLocaleString('en-US', {maximumFractionDigits:2});
+         return "$"+bal.toLocaleString('en-US', {maximumFractionDigits:0});
        }
        else
         return "$0"
@@ -749,7 +749,7 @@ async function MatchHold(tokenMatches, filteredAddresses, decimal, tokenPrice, p
    {
      var temp = (preBalance).toFixed(20);
      var bal = (Math.trunc(temp) * tokenPrice);
-     return "$"+bal.toLocaleString('en-US', {maximumFractionDigits:2});
+     return "$"+bal.toLocaleString('en-US', {maximumFractionDigits:0});
    }
    else
      return "$0"
