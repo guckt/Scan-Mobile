@@ -978,7 +978,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
     else
       {
         broked = broked + 1;
-        $("#progress2").text(broked + " broked")
+        $("#progress2").text(broked + " F")
       }
 
     if (j == tokenMatches.length)
