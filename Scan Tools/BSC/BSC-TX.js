@@ -1093,7 +1093,7 @@ async function BNBbalance(tokenMatches, decimal, priceBNB, APIKey)
 
 async function Key(i)
 {
-  var APIKey;
+  var APIKey0;
 
   if (i % 3 == 0)
     APIKey0 = '4MZSGAQDPPK71GU6KK7ZTXDCPXN35V66EUU';
