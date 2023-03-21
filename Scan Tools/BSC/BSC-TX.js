@@ -1150,6 +1150,7 @@ function Loading(loader)
   document.querySelector("#ContentPlaceHolder1_maintable > div:nth-child(6)  > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0").after(loader);
   loader.style.border = '1px';
   document.querySelector('#ContentPlaceHolder1_maintable > div:nth-child(6) > div.col-md-3.font-weight-bold.font-weight-sm-normal.mb-1.mb-md-0').remove();
+  document.querySelector('#ContentPlaceHolder1_li_disqus').remove();
 
   const logger = document.createElement("div");
   loader.after(logger);
