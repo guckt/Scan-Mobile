@@ -16,7 +16,7 @@ $(document).ready(function() {
     var addresses = [];
 
     var APIpullTotal = 1000;
-    var APIdisplayed = 400;
+    var APIdisplayed = 200;
 
     let filteredAddresses = [];
     var pairAddress = "";
@@ -1158,8 +1158,8 @@ function Loading(loader)
   logger.appendChild(log);
   log.className = 'log';
 
-  logger.style.paddingLeft = '200px';
-  loader.style.padding = '6px';
+  logger.style.paddingLeft = '10px';
+  loader.style.padding = '5px';
 
   const emojis = ["🕐", "🕜", "🕑","🕝", "🕒", "🕞", "🕓", "🕟", "🕔", "🕠", "🕕", "🕡", "🕖", "🕢",  "🕗", "🕣", "🕘", "🕤", "🕙",  "🕥", "🕚", "🕦",  "🕛", "🕧"];
   const interval = 100;
