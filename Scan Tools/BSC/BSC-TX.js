@@ -961,9 +961,7 @@ async function Friends(tokenMatches, masterlistfull, tokenOrder, decimal, tokenP
     var res = await fetch(url, opts)
       .then(res => res.json())
       .catch(console.error);
-    //console.log(tokenMatches)
-    //console.log(match)
-    console.log(match, res.data.ethereum.coinpath)
+    //console.log(match, res.data.ethereum.coinpath)
     if (res.data.ethereum.coinpath !== null)
     {
       for(var i = 0; i < res.data.ethereum.coinpath.length; i++)
