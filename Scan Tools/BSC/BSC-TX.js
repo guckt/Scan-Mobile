@@ -710,11 +710,11 @@ function Timer(temp)
     var seconds = time % 60;
     //console.log('Days:', days, 'Hours:', hours, 'Minutes:', minutes, 'Seconds:', seconds)
       if  (delta > 86400)
-        timer = days + "d " + hours + "h";
+        timer = days + "d" + hours + "h";
       else if (delta > 3600)
-        timer = hours + "h " + minutes + "m";
+        timer = hours + "h" + minutes + "m";
       else if (delta > 60)
-        timer = minutes + "m " + seconds + "s";
+        timer = minutes + "m" + seconds + "s";
       else if (delta <= 60)
         timer = seconds + "s";
 
