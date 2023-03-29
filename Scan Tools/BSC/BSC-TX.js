@@ -533,7 +533,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
       var row = table.insertRow(i);
       row.insertCell(0).innerHTML = tokenOrder[i];
       if  (tokenMatches[i] == thisAddress)
-      row.insertCell(1).innerHTML = thisAddress;
+      row.insertCell(1).innerHTML = thisAddress.slice(0,5);
         else
       row.insertCell(1).innerHTML = '<a href="https://bscscan.com/address/' + tokenMatches[i] +'">' + tokenMatches[i].slice(0,5) + '..' +'</a>';
       //row.insertCell(1).innerHTML = new Date((epoc
