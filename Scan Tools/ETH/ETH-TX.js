@@ -4,10 +4,11 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       guckt
-// @match        https://etherscan.io/tx/*
+// @match        https://etherscan.io/*
 // @icon         https://www.google.com/s2/favicons?domain=google.com
 // @grant        none
 // ==/UserScript==
+
 $(document).ready(function() {
     var tickers = [];
     var tokens = [];
