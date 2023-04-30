@@ -8,7 +8,6 @@
 // @icon         https://www.google.com/s2/favicons?domain=google.com
 // @grant        none
 // ==/UserScript==
-
 $(document).ready(function() {
     var tickers = [];
     var tokens = [];
@@ -550,8 +549,6 @@ async function GoogleSheetDB(values)
   $('#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-9').before('<input type="button" value=" COPY " id="DB">')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
     $("#DB").css("margin", "0px 6px");
-    $("#DB").css("margin-left", "-75px");
-
     $("#DB").css("width", "70px");
     $("#DB").css("border-radius", "16px");
     $("#DB").css("color", "DodgerBlue");
@@ -865,7 +862,7 @@ async function GenerateTable(tokenMatches, tokenTimes, tokenOrder, tokenAmount, 
     console.timeEnd("Finished Table")
 
         //$("#ContentPlaceHolder1_divTimeStamp > div > div.col-md-9")
-          $("#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-3.text-dt.mb-2.mb-md-0")
+          $("#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-9")
           .before('<input type="button" value="MORE" id="ER" >')
         //$("#ER").css("position", "fixed").css("top", 1).css("right", 100);
         $("#ER").css("position", "static")
@@ -1505,17 +1502,18 @@ function Progress(output)
 
 function Purchase(addresses, itemNumber){
 
-    $("#masterHeader > nav > div").append('<input type="button" value="BUY" id="BB" >')
+    $("#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-9").append('<input type="button" value="BUY" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
-    $("#BB").css("position", "fixed").css("top", 1).css("right", 60);
+    //$("#BB").css("position", "fixed").css("top", 1).css("right", 60);
     //$("#NB").css("border-radius", "15px")
-    $("#BB").css("margin", "5px");
-    $("#BB").css("width", "130px");
+    $("#BB").css("margin", "0px 6px");
+    $("#BB").css("width", "70");
     $("#BB").css("height", "40px");
+    $("#BB").css("border-radius", "16px");
 
-    $("#BB").css("color", "white");
-    $("#BB").css("background", "DodgerBlue");
-    $("#BB").css("border-color", "white");
+    $("#BB").css("color", "DodgerBlue");
+    $("#BB").css("background", "white");
+    $("#BB").css("border-color", "DodgerBlue");
     $("#BB").click(function(){
         window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
     });
