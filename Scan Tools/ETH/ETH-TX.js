@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       guckt
-// @match        etherscan.io/tx/*
+// @match        https://etherscan.io/tx/*
 // @icon         https://www.google.com/s2/favicons?domain=google.com
 // @grant        none
 // ==/UserScript==
