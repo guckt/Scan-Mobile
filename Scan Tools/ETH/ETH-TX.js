@@ -1508,7 +1508,6 @@ function Purchase(addresses, itemNumber){
     //$("#NB").css("border-radius", "15px")
     $("#BB").css("margin", "0px 6px");
     $("#BB").css("width", "70");
-    //$("#BB").css("height", "40px");
     $("#BB").css("border-radius", "16px");
     $("#BB").css("color", "DodgerBlue");
     $("#BB").css("background", "white");
