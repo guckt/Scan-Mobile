@@ -1515,6 +1515,6 @@ function Purchase(addresses, itemNumber){
     $("#BB").css("background", "white");
     $("#BB").css("border-color", "DodgerBlue");
     $("#BB").click(function(){
-        window.open('https://metamask.app.link/dapp/pancakeswap.finance/swap?chain=bsc&outputCurrency=' + addresses[itemNumber]);
+        window.open('https://metamask.app.link/dapp/app.uniswap.org/#/swap?outputCurrency=' + addresses[itemNumber]);
     });
 };
