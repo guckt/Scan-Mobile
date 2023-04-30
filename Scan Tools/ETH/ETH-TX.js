@@ -1502,13 +1502,13 @@ function Progress(output)
 
 function Purchase(addresses, itemNumber){
 
-    $("#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-9").append('<input type="button" value="BUY" id="BB" >')
+    $("#ContentPlaceHolder1_maintable > div.card.p-5.mb-3 > div:nth-child(3) > div.col-md-9").before('<input type="button" value="BUY" id="BB" >')
     //$("#BT").css("position", "fixed").css("top", 1).css("left", 100);
     //$("#BB").css("position", "fixed").css("top", 1).css("right", 60);
     //$("#NB").css("border-radius", "15px")
     $("#BB").css("margin", "0px 6px");
     $("#BB").css("width", "70");
-    $("#BB").css("height", "40px");
+    //$("#BB").css("height", "40px");
     $("#BB").css("border-radius", "16px");
 
     $("#BB").css("color", "DodgerBlue");
